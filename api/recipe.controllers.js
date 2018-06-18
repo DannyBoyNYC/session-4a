@@ -9,7 +9,8 @@ module.exports.findAll = function(req, res) {
 
 exports.findById = function(req, res) {
   const id = req.params.id;
-  Recipe.findOne({ _id: id }, (err, results) => {
+  Recipe.findOne({ _id: id }, (err, result) => {
+    if (err) return console.log(err);
     return res.send(result);
   });
 };
