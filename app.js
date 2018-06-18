@@ -6,8 +6,17 @@ const mongoose = require('mongoose');
 const recipeModels = require('./api/recipe.model');
 const mongoUri = 'mongodb://devereld:dd2345@ds015730.mlab.com:15730/recipes-dd';
 
-// make sure this line always appears before any routes
+
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+	next()
+})
 
 const recipes = require('./api/recipe.controllers');
 
