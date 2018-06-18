@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 // make sure this line always appears before any routes
 app.use(bodyParser.json());
 
+const routes = require('./src/recipe.routes');
+
 app.get('/', function(req, res) {
   res.send('Ahoy there');
 });
