@@ -16,9 +16,9 @@ exports.findById = function(req, res) {
 };
 
 exports.add = function(req, res) {
-  Recipe.create(req.body, (err, results) => {
+  Recipe.create(req.body, (err, result) => {
     if (err) return console.log(err);
-    return res.send(recipe);
+    return res.send(result);
   });
 };
 
