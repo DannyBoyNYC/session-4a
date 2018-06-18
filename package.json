@@ -1,0 +1,25 @@
+{
+  "name": "session-4a-NEW",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DannyBoyNYC/session-4a.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DannyBoyNYC/session-4a/issues"
+  },
+  "homepage": "https://github.com/DannyBoyNYC/session-4a#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.5"
+  }
+}

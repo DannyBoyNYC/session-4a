@@ -8,7 +8,6 @@ Run session 7
 
 Building a URL route scheme to map requests to app actions.
 
-1. cd into `backend``
 1. Run `$ npm init -y`
 1. Setup Tooling and npm Installs `npm install --save express mongoose body-parser`
 1. Create an npm script for nodemon (`npm run start`)
@@ -19,7 +18,7 @@ Building a URL route scheme to map requests to app actions.
 },
 ```
 
-### Mongo Demo
+<!-- ### Mongo Demo
 
 Start `mongod` in another Terminal tab (if it's not running already).
 
@@ -38,9 +37,9 @@ $ which mongod
 $ mongo
 > show dbs
 > exit
-```
+``` -->
 
-#### Body Parser
+### Body Parser
 
 [Body Parser](https://www.npmjs.com/package/body-parser) parses and places incoming requests in a `req.body` property so our handlers can use them.
 
@@ -68,7 +67,7 @@ console.log('Server running at http://localhost:3001/');
 
 The URL path is the root of the site, the handling method is an anonymous function, and the response is plain text.
 
-Run the app using `npm run start`.
+Run the app using `npm start`.
 
 Make a change to res.send in app.js to check that the server restarts. (Keep an eye on the nodemon process during this exercise to see if it is hanging.)
 
@@ -93,22 +92,16 @@ function findAll(req, res) {
 }
 ```
 
-For better organization (at the cost of a bit of complexity) we will create separate modules for our routes and their associated controllers in a new `src` directory.
+<!-- For better organization (at the cost of a bit of complexity) we will create separate modules for our routes and their associated controllers in a new `src` directory. -->
 
-Add routes.js to `/src/recipe.routes.js`.
+Add routes.js to `app.js`.
 
 ```js
-const recipes = require('./recipe.controllers');
-
-const recipeRoutes = function(app) {
-  app.get('/api/recipes', recipes.findAll);
-  app.get('/api/recipes/:id', recipes.findById);
-  app.post('/api/recipes', recipes.add);
-  app.put('/api/recipes/:id', recipes.update);
-  app.delete('/api/recipes/:id', recipes.delete);
-};
-
-module.exports = recipeRoutes;
+app.get('/api/recipes', recipes.findAll);
+app.get('/api/recipes/:id', recipes.findById);
+app.post('/api/recipes', recipes.add);
+app.put('/api/recipes/:id', recipes.update);
+app.delete('/api/recipes/:id', recipes.delete);
 ```
 
 Each route consists of three parts:
@@ -127,7 +120,7 @@ Note the require statement. We'll create a recipes controller and placed all our
 
 ### Controllers
 
-Create a new file inside of `src` called `recipe.controllers.js`. We'll add each request handling method for recipes data to this file one by one.
+Create a new file inside of `api` called `recipe.controllers.js`. We'll add each request handling method for recipes data to this file one by one.
 
 The are just empty functions for the moment.
 
