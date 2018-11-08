@@ -1,0 +1,26 @@
+{
+  "name": "session-4a",
+  "version": "1.0.0",
+  "description": "## Midterm Assignment",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/front-end-intermediate/session-4a.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/front-end-intermediate/session-4a/issues"
+  },
+  "homepage": "https://github.com/front-end-intermediate/session-4a#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.10",
+    "nodemon": "^1.18.6"
+  }
+}

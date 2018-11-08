@@ -16,7 +16,7 @@ Take a peek at the [documentation](https://developer.github.com/v3/) for an API.
 Building a URL route scheme to map requests to app actions.
 
 1. Run `$ npm init -y`
-1. Setup Tooling and npm Installs `npm install --save express mongoose body-parser`
+1. Setup Tooling and npm Installs `npm install --save express mongoose body-parser nodemon`
 1. Create an npm script for nodemon (`npm run start`)
 
 ```js
@@ -25,7 +25,7 @@ Building a URL route scheme to map requests to app actions.
 },
 ```
 
-### Mongo Demo
+<!-- ### Mongo Demo
 
 If desired, MongoDb can be installed on your computer for local and offline use. 
 
@@ -60,11 +60,7 @@ $ mongo
 > db.recipes.find()
 ```
 
-Here is a [quick reference](https://docs.mongodb.com/manual/reference/mongo-shell/) to mongo shell commands.
-
-### Body Parser
-
-[Body Parser](https://www.npmjs.com/package/body-parser) parses and places incoming requests in a `req.body` property so our handlers can use them.
+Here is a [quick reference](https://docs.mongodb.com/manual/reference/mongo-shell/) to mongo shell commands. -->
 
 ### app.js
 
@@ -72,10 +68,10 @@ Create `app.js` for express at the top level of the folder:
 
 ```js
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const app = express();
 
-// make sure this line always appears before any routes
+// this line always appears before any routes
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
@@ -86,62 +82,63 @@ app.listen(3001);
 console.log('Server running at http://localhost:3001/');
 ```
 
-`app.get` is our test route to make sure everything is running correctly.
+`app.get('/')` is the primary route for the front end. The URL is the root of the site, the callback handler is an anonymous function, and the response is plain text for now.
 
-The URL path is the root of the site, the handling method is an anonymous function, and the response is plain text.
+[Body Parser](https://www.npmjs.com/package/body-parser) parses and places incoming requests in a `req.body` property so our handlers can use them.
 
-Run the app using `npm start`.
+Run the app using `npm start`. Remember to keep an eye on the nodemon process during this exercise to see if it is hanging.
 
-Make a change to res.send in app.js to check that the server restarts. (Keep an eye on the nodemon process during this exercise to see if it is hanging.)
+### DEMO API Routes
 
-### API Routes
-
-DEMO: An api route is a predefined URL path that our API responds to, e.g.:
+Here is a fairly standard ExpressJS application using the Mongoose driver:
 
 ```js
-app.get('/api/recipes', findAll);
+// requires
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-function findAll(req, res) {
-  res.send([
-    {
-      name: 'recipe1309',
-      title: 'Lasagna',
-      date: '2013-09-01',
-      description:
-        'Lasagna noodles piled high and layered full of three kinds of cheese to go along with the perfect blend of meaty and zesty, tomato pasta sauce all loaded with herbs.',
-      image: 'lasagne.png'
-    }
-  ]);
-}
+// variables
+const app = express();
+const Schema = mongoose.Schema;
+const mongoUri = 'mongodb://devereld:dd2345@ds015730.mlab.com:15730/recipes-dd';
+
+// schema
+const RecipeSchema = new Schema({
+  name: String,
+  ingredients: Array
+});
+
+const Recipe = mongoose.model('Recipe', RecipeSchema);
+
+// middleware
+app.use(bodyParser.json());
+
+// routes
+app.get('/', function(req, res) {
+  res.send('Ahoy there');
+});
+
+app.get('/api/recipes', function(req, res){
+  Recipe.find({}, function(err, results) {
+    return res.send(results);
+  });
+});
+
+// initialization
+mongoose.connect(mongoUri, { useNewUrlParser: true });
+
+app.listen(3001);
+console.log('Server running at http://localhost:3001/');
 ```
 
-<!-- For better organization (at the cost of a bit of complexity) we will create separate modules for our routes and their associated controllers in a new `src` directory. -->
+## Using CommonJS
 
-Add routes.js to `app.js`.
-
-```js
-app.get('/api/recipes', recipes.findAll);
-app.get('/api/recipes/:id', recipes.findById);
-app.post('/api/recipes', recipes.add);
-app.put('/api/recipes/:id', recipes.update);
-app.delete('/api/recipes/:id', recipes.delete);
-```
-
-Each route consists of three parts:
-
-* A specific HTTP Action (`get, post...`)
-* A specific URL path (`/api/piates...`)
-* A handler method (`findAll`)
-
-All the main elements of a [REST application](http://www.restapitutorial.com/lessons/httpmethods.html) - GET, POST, PUT, DELETE - http actions are accounted for here.
-
-We've modeled our URL routes off of REST API conventions, and named our handling methods clearly - prefixing them with `api/` in order to differentiate them from routes we create on the front end.
-
-Note the `recipes.function` notation. We'll create a recipes controller file and placed all our request event handling methods inside the it.
+We are going to use CommonJS components to organize our code.
 
 ### Controllers
 
-Create a new file inside of `api` called `recipe.controllers.js`. We'll add each request handling method for recipes data to this file one by one.
+Create a new folder `api` and a file inside called `recipe.controllers.js`. We'll export each handler and create the functions in this file one by one.
 
 The are just empty functions for the moment.
 
@@ -153,15 +150,41 @@ exports.update = function() {};
 exports.delete = function() {};
 ```
 
-Note the use of `exports` above. This makes the functions available for import elsewhere in a Node application.
+Note the use of `exports`. This makes the functions available for import elsewhere in a our application.
 
-#### Check if its working
+Update `app.js` to require our controllers (the .js file extension can be omitted):
 
-1: Update `app.js` to require our controllers (the .js file extension can be omitted):
+```js
+const recipes = require('./api/recipe.controllers');
+```
 
-`const recipes = require('./api/recipe.controllers');`
+Now we can call the functions in `recipe.controllers`.
 
-2: Update findAll's definition in `recipe.controllers.js` to send a json snippet:
+Add the following to `app.js`:
+
+```js
+app.get('/api/recipes', recipes.findAll);
+app.get('/api/recipes/:id', recipes.findById);
+app.post('/api/recipes', recipes.add);
+app.put('/api/recipes/:id', recipes.update);
+app.delete('/api/recipes/:id', recipes.delete);
+```
+
+Each route consists of three parts:
+
+* A specific HTTP Action (`get, put, post, delete`)
+* A specific URL path (`/api/recipes/:id` etc.)
+* A handler method (`findAll`)
+
+The most common elements of a [REST application](http://www.restapitutorial.com/lessons/httpmethods.html) are accounted for here.
+
+We've modeled our URL routes off of REST API conventions, and named our handling methods clearly - prefixing them with `api/` in order to differentiate them from any routes we create to serve the front end.
+
+Note the `recipes.function` notation. We'll create a recipes controller file and placed all our request event handling methods inside the it.
+
+<!-- #### Check if its working
+
+Update findAll's definition in `recipe.controllers.js` to send a json snippet:
 
 ```js
 exports.findAll = function(req, res) {
@@ -182,7 +205,7 @@ exports.findAll = function(req, res) {
 
 `localhost:3001/api/recipes`
 
-You should see the json in the bowser.
+You should see the json in the bowser. -->
 
 ### Define Data Models (Mongoose)
 
@@ -209,13 +232,15 @@ const RecipeSchema = new Schema({
 module.exports = mongoose.model('Recipe', RecipeSchema);
 ```
 
-Note the we require mongoose and create an instance of a mongoose schema here.
+We require mongoose and create an instance of a mongoose Schema.
 
-This schema makes sure we're getting and setting well-formed data to and from the Mongo collection. Our schema has five String properties which define a Recipe object.
+The schema makes sure we're getting and setting well-formed data to and from the Mongo collection. Our schema has five String properties which define a Recipe object.
 
-The last line creates and exports the Recipe model object, with built in Mongo interfacing methods. We'll refer to this Recipe object in other files.
+The last line exports the RecipeShema together with Mongoose's built in Mongo interfacing methods. We'll refer to this Recipe object in other files.
 
-1: Update `app.js` with
+### Using Mongoose Methods and Schema
+
+1: Update `app.js` with these lines (in their appropriate locations):
 
 ```js
 const mongoose = require('mongoose');
@@ -225,18 +250,28 @@ const mongoUri = 'mongodb://devereld:dd2345@ds015730.mlab.com:15730/recipes-dd';
 mongoose.connect(mongoUri);
 ```
 
-Note: to use a different database, simply provide a different connection string to the mongoUri variable:
+To use a different database, simply drop a different connection string into the `mongoUri` variable.
+
+If we want to wrap our Express app startup inside the MongoDB connection it would look like:
+
+```js
+mongoose.connect(mongoUri, { useNewUrlParser: true }, () => {
+  app.listen(3001);
+  console.log('Server running at http://localhost:3001/');
+});
+```
 
 2: Add a reference to our model `const recipeModels = require('./api/recipe.model');`:
 
 ```js
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const recipeModels = require('./api/recipe.model');
 const recipes = require('./api/recipe.controllers');
+const recipeModels = require('./api/recipe.model');
+
+const app = express();
 const mongoUri = 'mongodb://devereld:dd2345@ds015730.mlab.com:15730/recipes-dd';
 
 app.use(bodyParser.json());
@@ -251,13 +286,15 @@ app.post('/api/recipes', recipes.add);
 app.put('/api/recipes/:id', recipes.update);
 app.delete('/api/recipes/:id', recipes.delete);
 
-mongoose.connect(mongoUri);
-
-app.listen(3001);
-console.log('Server running at http://localhost:3001/');
+mongoose.connect(mongoUri, { useNewUrlParser: true }, () => {
+  app.listen(3001);
+  console.log('Server running at http://localhost:3001/');
+});
 ```
 
-3: Update `src/recipe.controllers.js` to require Mongoose, so we can create an instance of our Recipe model to work with.
+3: Update `api/recipe.controllers.js` to require Mongoose, so we can create an instance of our Recipe model to work with.
+
+Add to the top of that file:
 
 ```js
 const mongoose = require('mongoose');
