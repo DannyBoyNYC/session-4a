@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const recipeModels = require('./api/recipe.model');
-const Recipe = mongoose.model('Recipe');
+// const Recipe = mongoose.model('Recipe');
 
 exports.findAll = function() {};
 exports.findById = function() {};
