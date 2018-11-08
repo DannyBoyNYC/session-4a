@@ -80,7 +80,7 @@ exports.import = function(req, res) {
         {"step": "Boil water"}, {"step": "Fry the eggs"}, {"step": "Serve hot"}
       ]
     },
-    function(err) {
+    function(err, req, res) {
       if (err) return console.log(err);
       return res.sendStatus(202);
     }

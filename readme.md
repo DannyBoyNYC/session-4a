@@ -621,7 +621,49 @@ Or by a Delete action in Postman.
 2. Append an id from the recipes endpoint to the /api/recipes endpoint
 3. Hit Send (e.g.: `http://localhost:3001/api/recipes/58c39048b3ddce0348706837`)
 
-While we are here let's add these lines to `app.js` together with the other `app.use` middleware:
+## Front End
+
+Create an `app` folder and add `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>START</title>
+</head>
+
+<body>
+  <a href="#">Slacker</a>
+  <div id="app"></div>
+  
+  <script>
+    
+    var elem = document.querySelector('#app');
+    var link = document.querySelector('a');
+    
+    function fetchRecipes(callback) {
+      fetch('http://localhost:3001/api/recipes')
+      .then( res => res.json() )
+      .then( data => callback(data) )
+    }
+    
+    fetchRecipes( (content) => {
+      console.log(content)
+    })
+    
+  </script>
+</body>
+
+</html>
+```
+
+Instead of XMLHTTPRequest we will use the new(-ish, the newer `async/await` api is also applicable here) fetch API. 
+
+`fetch` returns a promise.
+
+<!-- While we are here let's add these lines to `app.js` together with the other `app.use` middleware:
 
 ```js
 app.use((req, res, next) => {
@@ -632,7 +674,7 @@ app.use((req, res, next) => {
 })
 ```
 
-Comment them out, we'll need them later.
+Comment them out, we'll need them later. -->
 
 ## Notes
 
