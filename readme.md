@@ -62,7 +62,7 @@ $ mongo
 
 Here is a [quick reference](https://docs.mongodb.com/manual/reference/mongo-shell/) to mongo shell commands. -->
 
-### app.js
+### Express App
 
 Create `app.js` for express at the top level of the folder:
 
@@ -644,6 +644,7 @@ Create an `app` folder and add `index.html`:
     var link = document.querySelector('a');
     
     function fetchRecipes(callback) {
+      console.log(callback)
       fetch('http://localhost:3001/api/recipes')
       .then( res => res.json() )
       .then( data => callback(data) )
@@ -659,9 +660,32 @@ Create an `app` folder and add `index.html`:
 </html>
 ```
 
+Edit the route to serve the page:
+
+```js
+app.get('/', function(req, res) {
+  res.sendFile( __dirname + '/app/index.html');
+});
+```
+
 Instead of XMLHTTPRequest we will use the new(-ish, the newer `async/await` api is also applicable here) fetch API. 
 
 `fetch` returns a promise.
+
+You can pass the url and callback in separately:
+
+```js
+    function fetchRecipes(url, callback) {
+      console.log(callback)
+      fetch(url)
+      .then( res => res.json() )
+      .then( data => callback(data) )
+    }
+    
+    fetchRecipes( 'http://localhost:3001/api/recipes', (content) => {
+      console.log(content)
+    })
+```
 
 <!-- While we are here let's add these lines to `app.js` together with the other `app.use` middleware:
 

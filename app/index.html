@@ -15,17 +15,16 @@
     var elem = document.querySelector('#app');
     var link = document.querySelector('a');
     
-    function fetchLab(callback) {
-      fetch('http://localhost:3001/api/recipes')
+    function fetchRecipes(url, callback) {
+      console.log(callback)
+      fetch(url)
       .then( res => res.json() )
       .then( data => callback(data) )
     }
     
-    fetchLab( (content) => {
+    fetchRecipes( 'http://localhost:3001/api/recipes', (content) => {
       console.log(content)
     })
-
-    
     
   </script>
 </body>
