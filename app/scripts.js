@@ -11,7 +11,7 @@ function fetchRecipes(url, callback) {
 }
 
 function getEm(e) {
-  // e.preventDefault();
+  e.preventDefault();
   fetchRecipes('http://localhost:3001/api/recipes', (recipes) => {
     console.log(recipes)
     const markup = `
@@ -37,7 +37,7 @@ function getEm(e) {
           ).join('')
           }
           </ul>
-
+          
         </li>
         `
         ).join('')}
@@ -46,5 +46,3 @@ function getEm(e) {
     elem.innerHTML = markup;
   })
 }
-
-getEm();
