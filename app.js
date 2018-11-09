@@ -10,6 +10,7 @@ const mongoUri = 'mongodb://devereld:dd2345@ds157223.mlab.com:57223/recipes-dani
 
 // this line always appears before any routes
 app.use(bodyParser.json());
+app.use(express.static('app'));
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/app/index.html');
