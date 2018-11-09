@@ -2,7 +2,7 @@
 
 ## Homework Solution
 
-Note - I haven't included the form to add a recipe in this, just the first part - the DOM manipulation. For the form, review the notes from session 3.
+Note - I haven't included the form to add a recipe in this, just the first part - the DOM manipulation. For the form, review the notes from session 3. Be sure to include `app.use(bodyParser.urlencoded({ extended: true }));` in app.js.
 
 If you are using a separate `script.js` file for `index.html` you will need to add this to the `app.js` file:
 
