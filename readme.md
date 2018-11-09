@@ -10,7 +10,7 @@ If you are using a separate `script.js` file for `index.html` you will need to a
 
 `app.use(express.static('app'));`
 
-I don't want to click the button everytime I need to see my content so I'll start by just calling the function at the bottom of `scripts.js`:
+For development purposes, I don't want to click the button everytime I need to see my content so I'll start by just calling the function at the bottom of `scripts.js`:
 
 ```js
 getEm();
