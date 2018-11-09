@@ -3,23 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>START</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>ES6 Modules</title>
 </head>
 
 <body>
-  <a href="#">See Recipes</a>
-  <div id="app"></div>
-
-  <h2>Add a Recipe</h2>
-  <form action="/api/recipes" method="POST">
-    <input type="text" placeholder="Recipe title" name="title">
-    <input type="text" placeholder="Recipe image name" name="image">
-    <textarea type="text" placeholder="Recipe description" name="description"></textarea>
-    <button type="submit">Submit</button>
-  </form>
   
-  <script src="scripts.js"></script>
+  <script src="index.js" type="module"></script>
+  <!-- <script src="dist/bundle.js" defer nomodule></script> -->
 </body>
 
 </html>
