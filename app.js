@@ -9,7 +9,7 @@ const app = express();
 const mongoUri = 'mongodb://devereld:dd2345@ds157223.mlab.com:57223/recipes-daniel';
 
 // this line always appears before any routes
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('app'));
 
 app.get('/', function(req, res) {

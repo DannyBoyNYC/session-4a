@@ -13,3 +13,16 @@ ul.recipes > li h2 {
 img {
   width: 100%;
 }
+
+input, textarea {
+  font-size: 1rem;
+  display: block;
+  margin: 1rem;
+  width: 70%;
+}
+button {
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background: #007eb6;
+}

@@ -14,11 +14,13 @@ exports.findById = function(req, res) {
   } )
 };
 
-exports.add = function(req, res) {
-  Recipe.create( req.body, (err, recipe) => {
-    if (err) return console.log(err);
-    return res.send(recipe)
-  })
+exports.add = function (req, res) {
+  console.log(req.body);
+  res.redirect('/');
+  // Recipe.create(req.body, (err, recipe) => {
+  //   if (err) return console.log(err);
+  //   return res.send(recipe)
+  // })
 };
 
 exports.update = function() {};
