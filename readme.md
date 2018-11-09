@@ -169,4 +169,30 @@ function getEm(e) {
 }
 ```
 
+Add a touch of css
+
+```css
+ul.recipes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.recipes > li h2 {
+  border-top: 3px solid #999;
+}
+
+img {
+  width: 100%;
+}
+```
+
 See the script.js file in the `app` folder for the full script.
+
+Download this branch and cd into the folder. 
+
+Type `npm i` in the terminal to install the dependencies.
+
+Type `npm start` to kick off the application.
+
+Visit `localhost:3001` in the browser.
