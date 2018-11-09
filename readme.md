@@ -2,6 +2,8 @@
 
 ## Homework Solution
 
+Note - I haven't included the form to add a recipe in this, just the first part - the DOM manipulation. For the form, review the notes from session 3.
+
 If you are using a separate `script.js` file for `index.html` you will need to add this to the `app.js` file:
 
 `app.use(express.static('app'));`
