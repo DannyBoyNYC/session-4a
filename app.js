@@ -12,7 +12,7 @@ const mongoUri = 'mongodb://devereld:dd2345@ds157223.mlab.com:57223/recipes-dani
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-  res.send('Ahoy there');
+  res.sendFile(__dirname + '/app/index.html');
 });
 
 app.get('/api/recipes', recipes.findAll);
